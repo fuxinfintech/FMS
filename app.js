@@ -126,8 +126,7 @@ function showPage(page) {
     loadCases();
   }
 }
-  }
-}
+
 async function addCustomer() {
 
   const name =
