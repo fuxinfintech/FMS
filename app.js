@@ -287,12 +287,6 @@ async function addCase() {
   new Date().toISOString().slice(0,10).replaceAll("-","") +
   "-" +
   Math.floor(Math.random()*9000+1000);
-  
-  const caseNo =
-  "LMS" +
-  new Date().toISOString().slice(0,10).replaceAll("-","") +
-  "-" +
-  Math.floor(Math.random()*9000+1000);
 
   const { error } = await supabaseClient
   .from("cases")
