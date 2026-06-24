@@ -1,0 +1,140 @@
+* {
+  box-sizing: border-box;
+  font-family: "Microsoft JhengHei", Arial, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: #f3f6fa;
+  color: #1f2937;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #0f172a, #1e3a8a);
+}
+
+.login-box {
+  width: 360px;
+  background: white;
+  padding: 36px;
+  border-radius: 18px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+  text-align: center;
+}
+
+.login-box h1 {
+  margin: 0;
+  font-size: 32px;
+}
+
+.login-box p {
+  color: #6b7280;
+  margin-bottom: 24px;
+}
+
+.login-box input {
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  font-size: 15px;
+}
+
+.login-box button {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 10px;
+  background: #2563eb;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+#loginMsg {
+  margin-top: 14px;
+  color: red;
+  font-size: 14px;
+}
+
+.dashboard {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: 240px;
+  background: #0f172a;
+  color: white;
+  padding: 22px;
+}
+
+.sidebar h2 {
+  margin-top: 0;
+}
+
+.sidebar nav {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sidebar button {
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  text-align: left;
+  background: transparent;
+  color: white;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.sidebar button:hover {
+  background: rgba(255,255,255,0.12);
+}
+
+.logout {
+  margin-top: 28px;
+  background: #dc2626 !important;
+  text-align: center !important;
+}
+
+.main {
+  flex: 1;
+  padding: 32px;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  margin-top: 24px;
+}
+
+.card {
+  background: white;
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+}
+
+.card h3 {
+  margin-top: 0;
+  color: #6b7280;
+}
+
+.card p {
+  font-size: 36px;
+  font-weight: bold;
+  margin: 0;
+}
