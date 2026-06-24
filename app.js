@@ -341,14 +341,16 @@ async function loadCases() {
 
   data.forEach(row => {
     tbody.innerHTML += `
-      <tr>
-        <td>${row.customers?.name ?? ""}</td>
-        <td>${row.amount ?? 0}</td>
-        <td>${row.actual_received ?? 0}</td>
-        <td>${row.days ?? 7}</td>
-        <td>${row.due_date ?? ""}</td>
-        <td>${row.case_status ?? ""}</td>
-      </tr>
+     <tr>
+  <td>${row.case_no ?? ""}</td>
+  <td>${row.customers?.name ?? ""}</td>
+  <td>${row.amount ?? 0}</td>
+  <td>${row.actual_received ?? 0}</td>
+  <td>${row.days ?? 7}</td>
+  <td>${row.start_date ?? ""}</td>
+  <td>${row.due_date ?? ""}</td>
+  <td>${row.case_status ?? ""}</td>
+</tr>
     `;
   });
 }
