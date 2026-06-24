@@ -30,7 +30,7 @@
       <button>🏢 商戶管理</button>
       <button onclick="showPage('customers')">👥 客戶管理</button>
       <button onclick="showPage('cases')">📋 案件管理</button>
-      <button>💰 還款管理</button>
+      <button onclick="showPage('payments')">💰 還款管理</button>
       <button>⚠️ 風控管理</button>
       <button>🚨 催收管理</button>
       <button>📄 合約中心</button>
@@ -158,7 +158,57 @@
       </table>
     </div>
   </section>
+<!-- 還款管理 -->
+<section id="paymentsSection" class="hidden">
+  <h1>還款管理</h1>
 
+  <div class="form-box">
+    <h3>新增還款紀錄</h3>
+
+    <div class="form-grid">
+      <select id="paymentCase">
+        <option value="">選擇案件</option>
+      </select>
+
+      <select id="paymentType">
+        <option value="展期">展期</option>
+        <option value="結清">結清</option>
+        <option value="部分還款">部分還款</option>
+        <option value="逾期費">逾期費</option>
+      </select>
+
+      <input id="paymentAmount" type="number" placeholder="還款金額">
+      <input id="paymentPaidAt" type="datetime-local">
+      <input id="paymentNote" placeholder="備註">
+    </div>
+
+    <button onclick="addPayment()">新增還款</button>
+    <p id="paymentMsg"></p>
+  </div>
+
+  <div class="table-box">
+    <h3>還款紀錄</h3>
+
+    <table>
+      <thead>
+        <tr>
+          <th>案件編號</th>
+          <th>客戶</th>
+          <th>類型</th>
+          <th>金額</th>
+          <th>時間</th>
+          <th>備註</th>
+        </tr>
+      </thead>
+
+      <tbody id="paymentsTable">
+        <tr>
+          <td colspan="6">載入中...</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
 </main>
 </div>
 
