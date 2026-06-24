@@ -26,9 +26,9 @@
   <aside class="sidebar">
     <h2>FMS Core</h2>
     <nav>
-      <button>📊 儀表板</button>
+      <button onclick="showPage('dashboard')">📊 儀表板</button>
       <button>🏢 商戶管理</button>
-      <button>👥 客戶管理</button>
+      <button onclick="showPage('customers')">👥 客戶管理</button>
       <button>📋 案件管理</button>
       <button>💰 還款管理</button>
       <button>⚠️ 風控管理</button>
@@ -41,31 +41,79 @@
   </aside>
 
   <main class="main">
+
+  <!-- 儀表板 -->
+  <section id="dashboardSection">
     <h1>營運儀表板</h1>
     <p id="userInfo">登入中...</p>
 
-  <div class="card">
-  <h3>今日案件</h3>
-  <p id="todayCases">0</p>
-</div>
+    <div class="cards">
+      <div class="card">
+        <h3>今日案件</h3>
+        <p id="todayCases">0</p>
+      </div>
 
-<div class="card">
-  <h3>待還款</h3>
-  <p id="pendingPayments">0</p>
-</div>
+      <div class="card">
+        <h3>待還款</h3>
+        <p id="pendingPayments">0</p>
+      </div>
 
-<div class="card">
-  <h3>逾期案件</h3>
-  <p id="overdueCases">0</p>
-</div>
+      <div class="card">
+        <h3>逾期案件</h3>
+        <p id="overdueCases">0</p>
+      </div>
 
-<div class="card">
-  <h3>總商戶</h3>
-  <p id="totalMerchants">0</p>
-</div>
+      <div class="card">
+        <h3>總商戶</h3>
+        <p id="totalMerchants">0</p>
       </div>
     </div>
-  </main>
+  </section>
+
+  <!-- 客戶管理 -->
+  <section id="customersSection" class="hidden">
+    <h1>客戶管理</h1>
+
+    <div class="form-box">
+      <h3>新增客戶</h3>
+
+      <div class="form-grid">
+        <input id="customerName" placeholder="客戶姓名" />
+        <input id="customerPhone" placeholder="手機號碼" />
+        <input id="customerIdNumber" placeholder="身分證字號" />
+        <input id="customerBirthday" type="date" />
+        <input id="customerAddress" placeholder="戶籍地址" />
+        <input id="customerNote" placeholder="備註" />
+      </div>
+
+      <button onclick="addCustomer()">新增客戶</button>
+      <p id="customerMsg"></p>
+    </div>
+
+    <div class="table-box">
+      <h3>客戶列表</h3>
+
+      <table>
+        <thead>
+          <tr>
+            <th>姓名</th>
+            <th>手機</th>
+            <th>身分證</th>
+            <th>生日</th>
+            <th>地址</th>
+            <th>建立時間</th>
+          </tr>
+        </thead>
+        <tbody id="customersTable">
+          <tr>
+            <td colspan="6">載入中...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+</main>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
