@@ -309,6 +309,10 @@ async function addCase() {
   customer_id: customerId,
   amount: Number(amount),
   actual_received: Number(actualReceived || 0),
+  total_receivable: Number(amount),
+  paid_amount: 0,
+  overdue_fee: 0,
+  extension_count: 0,
   days: Number(days),
   start_date: startDate,
   due_date: dueDate,
@@ -365,7 +369,7 @@ async function loadCases() {
   <td>${row.amount ?? 0}</td>
   <td>${row.actual_received ?? 0}</td>
   <td>${row.paid_amount ?? 0}</td>
-  <td>${(row.amount ?? 0) - (row.paid_amount ?? 0)}</td>
+  <td>${(row.total_receivable ?? row.amount ?? 0) - (row.paid_amount ?? 0)}</td>
   <td>${row.days ?? 7}</td>
   <td>${row.start_date ?? ""}</td>
   <td>${row.due_date ?? ""}</td>
@@ -497,11 +501,18 @@ async function addPayment() {
   };
 
   if (paymentType === "展期") {
-    const newDueDate = calculateDueDate(caseData.due_date, Number(caseData.days || 7) + 1);
+  const newDueDate = calculateDueDate(
+    caseData.due_date,
+    Number(caseData.days || 7) + 1
+  );
 
-    updateData.case_status = "展期中";
-    updateData.due_date = newDueDate;
-  }
+  updateData.case_status = "展期中";
+  updateData.due_date = newDueDate;
+  updateData.extension_count = Number(caseData.extension_count || 0) + 1;
+  updateData.total_receivable =
+    Number(caseData.total_receivable || caseData.amount || 0) +
+    Number(caseData.extension_fee || 0);
+}
 
   if (paymentType === "結清") {
     updateData.case_status = "正常結清";
