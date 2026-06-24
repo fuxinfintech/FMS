@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FMS Core｜多商戶營運管理系統</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div id="loginPage" class="login-page">
+  <div class="login-box">
+    <h1>FMS Core</h1>
+    <p>多商戶營運管理系統</p>
+
+    <input id="email" type="email" placeholder="請輸入 Email" />
+    <input id="password" type="password" placeholder="請輸入密碼" />
+
+    <button onclick="login()">登入系統</button>
+
+    <div id="loginMsg"></div>
+  </div>
+</div>
+
+<div id="dashboardPage" class="dashboard hidden">
+  <aside class="sidebar">
+    <h2>FMS Core</h2>
+    <nav>
+      <button>📊 儀表板</button>
+      <button>🏢 商戶管理</button>
+      <button>👥 客戶管理</button>
+      <button>📋 案件管理</button>
+      <button>💰 還款管理</button>
+      <button>⚠️ 風控管理</button>
+      <button>🚨 催收管理</button>
+      <button>📄 合約中心</button>
+      <button>👤 帳號權限</button>
+      <button>📈 財務中心</button>
+    </nav>
+    <button class="logout" onclick="logout()">登出</button>
+  </aside>
+
+  <main class="main">
+    <h1>營運儀表板</h1>
+    <p id="userInfo">登入中...</p>
+
+    <div class="cards">
+      <div class="card">
+        <h3>今日案件</h3>
+        <p>0</p>
+      </div>
+      <div class="card">
+        <h3>待還款</h3>
+        <p>0</p>
+      </div>
+      <div class="card">
+        <h3>逾期案件</h3>
+        <p>0</p>
+      </div>
+      <div class="card">
+        <h3>總商戶</h3>
+        <p>0</p>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="app.js"></script>
+</body>
+</html>
