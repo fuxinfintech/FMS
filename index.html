@@ -40,7 +40,7 @@
     <button class="logout" onclick="logout()">登出</button>
   </aside>
 
-  <main class="main">
+ <main class="main">
 
   <!-- 儀表板 -->
   <section id="dashboardSection">
@@ -52,17 +52,14 @@
         <h3>今日案件</h3>
         <p id="todayCases">0</p>
       </div>
-
       <div class="card">
         <h3>待還款</h3>
         <p id="pendingPayments">0</p>
       </div>
-
       <div class="card">
         <h3>逾期案件</h3>
         <p id="overdueCases">0</p>
       </div>
-
       <div class="card">
         <h3>總商戶</h3>
         <p id="totalMerchants">0</p>
@@ -72,70 +69,6 @@
 
   <!-- 客戶管理 -->
   <section id="customersSection" class="hidden">
-    <section id="casesSection" class="hidden">
-
-<h1>案件管理</h1>
-
-<div class="form-box">
-
-<h3>新增案件</h3>
-
-<div class="form-grid">
-
-<select id="caseCustomer">
-<option value="">選擇客戶</option>
-</select>
-
-<input id="caseAmount" type="number" placeholder="申請金額">
-
-<input id="caseActualReceived" type="number" placeholder="實際到帳">
-
-<input id="caseDays" type="number" value="7">
-
-<input id="caseStartDate" type="date">
-
-<input id="caseExtensionFee" type="number" placeholder="展期費">
-
-</div>
-
-<button onclick="addCase()">
-新增案件
-</button>
-
-<p id="caseMsg"></p>
-
-</div>
-
-<div class="table-box">
-
-<h3>案件列表</h3>
-
-<table>
-
-<thead>
-<tr>
-<th>客戶</th>
-<th>金額</th>
-<th>實拿</th>
-<th>天數</th>
-<th>到期日</th>
-<th>狀態</th>
-</tr>
-</thead>
-
-<tbody id="casesTable">
-<tr>
-<td colspan="6">
-載入中...
-</td>
-</tr>
-</tbody>
-
-</table>
-
-</div>
-
-</section>
     <h1>客戶管理</h1>
 
     <div class="form-box">
@@ -169,6 +102,53 @@
           </tr>
         </thead>
         <tbody id="customersTable">
+          <tr>
+            <td colspan="6">載入中...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 案件管理 -->
+  <section id="casesSection" class="hidden">
+    <h1>案件管理</h1>
+
+    <div class="form-box">
+      <h3>新增案件</h3>
+
+      <div class="form-grid">
+        <select id="caseCustomer">
+          <option value="">選擇客戶</option>
+        </select>
+
+        <input id="caseAmount" type="number" placeholder="申請金額">
+        <input id="caseActualReceived" type="number" placeholder="實際到帳">
+        <input id="caseDays" type="number" value="7">
+        <input id="caseStartDate" type="date">
+        <input id="caseExtensionFee" type="number" placeholder="展期費">
+      </div>
+
+      <button onclick="addCase()">新增案件</button>
+      <p id="caseMsg"></p>
+    </div>
+
+    <div class="table-box">
+      <h3>案件列表</h3>
+
+      <table>
+        <thead>
+          <tr>
+            <th>客戶</th>
+            <th>金額</th>
+            <th>實拿</th>
+            <th>天數</th>
+            <th>到期日</th>
+            <th>狀態</th>
+          </tr>
+        </thead>
+
+        <tbody id="casesTable">
           <tr>
             <td colspan="6">載入中...</td>
           </tr>
