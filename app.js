@@ -281,23 +281,30 @@ async function addCase() {
   }
 
   const dueDate = calculateDueDate(startDate, days);
+  
+  const caseNo =
+  "LMS" +
+  new Date().toISOString().slice(0,10).replaceAll("-","") +
+  "-" +
+  Math.floor(Math.random()*9000+1000);
+  
   const caseNo = "CASE-" + Date.now();
 
   const { error } = await supabaseClient
   .from("cases")
-  .insert([
-    {
-      case_no: caseNo,
-      customer_id: customerId,
-      amount: Number(amount),
-      actual_received: Number(actualReceived || 0),
-      days: Number(days),
-      start_date: startDate,
-      due_date: dueDate,
-      extension_fee: Number(extensionFee || 0),
-      case_status: "審核中"
-    }
-  ]);
+ .insert([
+{
+  case_no: caseNo,
+  customer_id: customerId,
+  amount: Number(amount),
+  actual_received: Number(actualReceived || 0),
+  days: Number(days),
+  start_date: startDate,
+  due_date: dueDate,
+  extension_fee: Number(extensionFee || 0),
+  case_status: "審核中"
+}
+]);
 
   if (error) {
     console.error(error);
