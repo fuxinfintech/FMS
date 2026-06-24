@@ -116,6 +116,7 @@ function showPage(page) {
   document.getElementById("dashboardSection")?.classList.add("hidden");
   document.getElementById("customersSection")?.classList.add("hidden");
   document.getElementById("casesSection")?.classList.add("hidden");
+  document.getElementById("paymentsSection")?.classList.add("hidden");
 
   if (page === "dashboard") {
     document.getElementById("dashboardSection")?.classList.remove("hidden");
@@ -130,6 +131,12 @@ function showPage(page) {
     document.getElementById("casesSection")?.classList.remove("hidden");
     loadCaseCustomers();
     loadCases();
+  }
+
+  if (page === "payments") {
+    document.getElementById("paymentsSection")?.classList.remove("hidden");
+    loadPaymentCases();
+    loadPayments();
   }
 }
 
