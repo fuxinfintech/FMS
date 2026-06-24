@@ -1,6 +1,6 @@
 // ===== Supabase 設定 =====
-const SUPABASE_URL = "你的SUPABASE_URL";
-const SUPABASE_ANON_KEY = "你的SUPABASE_ANON_KEY";
+const SUPABASE_URL = "https://bkqznvoorilxjvvsdmak.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJrcXpudm9vcmlseGp2dnNkbWFrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIyNjQzMzYsImV4cCI6MjA5Nzg0MDMzNn0.ORxxtnY_9Q0vOWDZsyU0Dz52ZR8m12VJHhw1aY95KM8";
 
 const supabaseClient = supabase.createClient(
   SUPABASE_URL,
