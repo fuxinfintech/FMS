@@ -37,14 +37,13 @@ async function loadUser() {
 
   if (!user) return;
 
-  document.getElementById("loginPage")
-    .classList.add("hidden");
-
-  document.getElementById("dashboardPage")
-    .classList.remove("hidden");
+  document.getElementById("loginPage").classList.add("hidden");
+  document.getElementById("dashboardPage").classList.remove("hidden");
 
   document.getElementById("userInfo").innerHTML =
     `歡迎登入：${user.email}`;
+
+  loadDashboardStats();
 }
 
 // ===== 登出 =====
@@ -66,3 +65,43 @@ window.onload = async () => {
     loadUser();
   }
 };
+// ===== 儀表板統計 =====
+async function loadDashboardStats() {
+
+  // 總商戶數
+  const { count: merchantCount } = await supabaseClient
+    .from("merchants")
+    .select("*", { count: "exact", head: true });
+
+  // 今日案件數
+  const today = new Date().toISOString().slice(0, 10);
+
+  const { count: todayCaseCount } = await supabaseClient
+    .from("cases")
+    .select("*", { count: "exact", head: true })
+    .gte("created_at", today);
+
+  // 待還款案件
+  const { count: pendingPaymentCount } = await supabaseClient
+    .from("cases")
+    .select("*", { count: "exact", head: true })
+    .in("case_status", ["待還款", "履約中", "展期中"]);
+
+  // 逾期案件
+  const { count: overdueCaseCount } = await supabaseClient
+    .from("cases")
+    .select("*", { count: "exact", head: true })
+    .in("case_status", ["逾期中", "逾期展期中", "催收中"]);
+
+  document.getElementById("totalMerchants").innerText =
+    merchantCount ?? 0;
+
+  document.getElementById("todayCases").innerText =
+    todayCaseCount ?? 0;
+
+  document.getElementById("pendingPayments").innerText =
+    pendingPaymentCount ?? 0;
+
+  document.getElementById("overdueCases").innerText =
+    overdueCaseCount ?? 0;
+}
