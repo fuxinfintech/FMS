@@ -105,3 +105,127 @@ async function loadDashboardStats() {
   document.getElementById("overdueCases").innerText =
     overdueCaseCount ?? 0;
 }
+
+function showPage(page) {
+
+  document
+    .getElementById("dashboardSection")
+    .classList.add("hidden");
+
+  document
+    .getElementById("customersSection")
+    .classList.add("hidden");
+
+  if (page === "dashboard") {
+    document
+      .getElementById("dashboardSection")
+      .classList.remove("hidden");
+  }
+
+  if (page === "customers") {
+    document
+      .getElementById("customersSection")
+      .classList.remove("hidden");
+
+    loadCustomers();
+  }
+}
+async function addCustomer() {
+
+  const name =
+    document.getElementById("customerName").value;
+
+  const phone =
+    document.getElementById("customerPhone").value;
+
+  const idNumber =
+    document.getElementById("customerIdNumber").value;
+
+  const birthday =
+    document.getElementById("customerBirthday").value;
+
+  const address =
+    document.getElementById("customerAddress").value;
+
+  const note =
+    document.getElementById("customerNote").value;
+
+  if (!name) {
+    alert("請輸入姓名");
+    return;
+  }
+
+  const { error } =
+    await supabaseClient
+      .from("customers")
+      .insert([
+        {
+          name,
+          phone,
+          id_number: idNumber,
+          birthday,
+          address,
+          note
+        }
+      ]);
+
+  if (error) {
+    console.error(error);
+    document.getElementById("customerMsg").innerText =
+      "新增失敗";
+    return;
+  }
+
+  document.getElementById("customerMsg").innerText =
+    "新增成功";
+
+  loadCustomers();
+}
+async function loadCustomers() {
+
+  const { data, error } =
+    await supabaseClient
+      .from("customers")
+      .select("*")
+      .order("created_at", {
+        ascending: false
+      });
+
+  if (error) {
+    console.error(error);
+    return;
+  }
+
+  const tbody =
+    document.getElementById("customersTable");
+
+  tbody.innerHTML = "";
+
+  if (!data.length) {
+
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="6">
+          尚無資料
+        </td>
+      </tr>
+    `;
+
+    return;
+  }
+
+  data.forEach(row => {
+
+    tbody.innerHTML += `
+      <tr>
+        <td>${row.name ?? ""}</td>
+        <td>${row.phone ?? ""}</td>
+        <td>${row.id_number ?? ""}</td>
+        <td>${row.birthday ?? ""}</td>
+        <td>${row.address ?? ""}</td>
+        <td>${new Date(row.created_at)
+          .toLocaleString()}</td>
+      </tr>
+    `;
+  });
+}
