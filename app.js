@@ -126,8 +126,6 @@ function showPage(page) {
     loadCases();
   }
 }
-
-}
   }
 }
 async function addCustomer() {
