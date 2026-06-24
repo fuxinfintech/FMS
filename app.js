@@ -361,18 +361,26 @@ async function loadCases() {
     return;
   }
 
-  data.forEach(row => {
-   tbody.innerHTML += `
-<tr>
-  <td>${row.case_no ?? ""}</td>
-  <td>${row.customers?.name ?? ""}</td>
-  <td>${row.amount ?? 0}</td>
-  <td>${row.actual_received ?? 0}</td>
-  <td>${row.paid_amount ?? 0}</td>
-  <td>${(row.total_receivable ?? row.amount ?? 0) - (row.paid_amount ?? 0)}</td>
-  <td>${row.days ?? 7}</td>
-  <td>${row.start_date ?? ""}</td>
-  <td>${row.due_date ?? ""}</td>
+ data.forEach(row => {
+
+  tbody.innerHTML += `
+    <tr>
+      <td>${row.case_no ?? ""}</td>
+      <td>${row.customers?.name ?? ""}</td>
+
+      <td>${row.amount ?? 0}</td>
+
+      <td>${row.total_receivable ?? row.amount ?? 0}</td>
+
+      <td>${row.actual_received ?? 0}</td>
+
+      <td>${row.paid_amount ?? 0}</td>
+
+      <td>${(row.total_receivable ?? row.amount ?? 0) - (row.paid_amount ?? 0)}</td>
+
+      <td>${row.days ?? 7}</td>
+      <td>${row.start_date ?? ""}</td>
+      <td>${row.due_date ?? ""}</td>
   <td>
     ${
       row.settlement_date
