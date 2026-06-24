@@ -354,8 +354,40 @@ async function loadCases() {
   <td>${row.days ?? 7}</td>
   <td>${row.start_date ?? ""}</td>
   <td>${row.due_date ?? ""}</td>
-  <td>${row.case_status ?? ""}</td>
+  <td>
+  <select onchange="updateCaseStatus('${row.id}', this.value)">
+    <option value="審核中" ${row.case_status === "審核中" ? "selected" : ""}>審核中</option>
+    <option value="已核准" ${row.case_status === "已核准" ? "selected" : ""}>已核准</option>
+    <option value="履約中" ${row.case_status === "履約中" ? "selected" : ""}>履約中</option>
+    <option value="待還款" ${row.case_status === "待還款" ? "selected" : ""}>待還款</option>
+    <option value="展期中" ${row.case_status === "展期中" ? "selected" : ""}>展期中</option>
+    <option value="逾期中" ${row.case_status === "逾期中" ? "selected" : ""}>逾期中</option>
+    <option value="催收中" ${row.case_status === "催收中" ? "selected" : ""}>催收中</option>
+    <option value="正常結清" ${row.case_status === "正常結清" ? "selected" : ""}>正常結清</option>
+    <option value="提前結清" ${row.case_status === "提前結清" ? "selected" : ""}>提前結清</option>
+    <option value="逾期結清" ${row.case_status === "逾期結清" ? "selected" : ""}>逾期結清</option>
+    <option value="協商結清" ${row.case_status === "協商結清" ? "selected" : ""}>協商結清</option>
+    <option value="呆帳" ${row.case_status === "呆帳" ? "selected" : ""}>呆帳</option>
+  </select>
+</td>
 </tr>
     `;
   });
+}
+async function updateCaseStatus(caseId, newStatus) {
+  const { error } = await supabaseClient
+    .from("cases")
+    .update({
+      case_status: newStatus
+    })
+    .eq("id", caseId);
+
+  if (error) {
+    console.error(error);
+    alert("狀態更新失敗");
+    return;
+  }
+
+  loadCases();
+  loadDashboardStats();
 }
