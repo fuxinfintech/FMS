@@ -107,35 +107,25 @@ async function loadDashboardStats() {
 }
 
 function showPage(page) {
-
-  document
-    .getElementById("dashboardSection")
-    .classList.add("hidden");
-
-  document
-    .getElementById("customersSection")
-    .classList.add("hidden");
+  document.getElementById("dashboardSection")?.classList.add("hidden");
+  document.getElementById("customersSection")?.classList.add("hidden");
+  document.getElementById("casesSection")?.classList.add("hidden");
 
   if (page === "dashboard") {
-    document
-      .getElementById("dashboardSection")
-      .classList.remove("hidden");
+    document.getElementById("dashboardSection")?.classList.remove("hidden");
   }
 
   if (page === "customers") {
-    document
-      .getElementById("customersSection")
-      .classList.remove("hidden");
-
+    document.getElementById("customersSection")?.classList.remove("hidden");
     loadCustomers();
-    if(page === "cases"){
+  }
 
-document
-.getElementById("casesSection")
-.classList.remove("hidden");
-
-loadCaseCustomers();
-loadCases();
+  if (page === "cases") {
+    document.getElementById("casesSection")?.classList.remove("hidden");
+    loadCaseCustomers();
+    loadCases();
+  }
+}
 
 }
   }
