@@ -404,3 +404,161 @@ async function updateCaseStatus(caseId, newStatus) {
   loadCases();
   loadDashboardStats();
 }
+
+async function loadPaymentCases() {
+  const { data, error } = await supabaseClient
+    .from("cases")
+    .select(`
+      id,
+      case_no,
+      amount,
+      due_date,
+      customers (
+        name
+      )
+    `)
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error(error);
+    return;
+  }
+
+  const select = document.getElementById("paymentCase");
+  select.innerHTML = `<option value="">選擇案件</option>`;
+
+  data.forEach(row => {
+    select.innerHTML += `
+      <option value="${row.id}">
+        ${row.case_no ?? "無編號"}｜${row.customers?.name ?? ""}｜${row.amount ?? 0}
+      </option>
+    `;
+  });
+}
+
+async function addPayment() {
+  const caseId = document.getElementById("paymentCase").value;
+  const paymentType = document.getElementById("paymentType").value;
+  const amount = Number(document.getElementById("paymentAmount").value || 0);
+  const paidAt = document.getElementById("paymentPaidAt").value || new Date().toISOString();
+  const note = document.getElementById("paymentNote").value;
+
+  if (!caseId) {
+    alert("請選擇案件");
+    return;
+  }
+
+  if (!amount) {
+    alert("請輸入還款金額");
+    return;
+  }
+
+  const { data: caseData, error: caseError } = await supabaseClient
+    .from("cases")
+    .select("*")
+    .eq("id", caseId)
+    .single();
+
+  if (caseError) {
+    console.error(caseError);
+    alert("讀取案件失敗");
+    return;
+  }
+
+  const { error: paymentError } = await supabaseClient
+    .from("payments")
+    .insert([
+      {
+        case_id: caseId,
+        payment_type: paymentType,
+        amount,
+        paid_at: paidAt,
+        note
+      }
+    ]);
+
+  if (paymentError) {
+    console.error(paymentError);
+    document.getElementById("paymentMsg").innerText = "新增失敗";
+    return;
+  }
+
+  let updateData = {
+    paid_amount: Number(caseData.paid_amount || 0) + amount
+  };
+
+  if (paymentType === "展期") {
+    const newDueDate = calculateDueDate(caseData.due_date, Number(caseData.days || 7) + 1);
+
+    updateData.case_status = "展期中";
+    updateData.due_date = newDueDate;
+  }
+
+  if (paymentType === "結清") {
+    updateData.case_status = "正常結清";
+    updateData.settlement_date = paidAt;
+  }
+
+  if (paymentType === "部分還款") {
+    updateData.case_status = "待還款";
+  }
+
+  if (paymentType === "逾期費") {
+    updateData.case_status = "逾期中";
+  }
+
+  await supabaseClient
+    .from("cases")
+    .update(updateData)
+    .eq("id", caseId);
+
+  document.getElementById("paymentMsg").innerText = "新增成功";
+
+  loadPayments();
+  loadCases();
+  loadDashboardStats();
+}
+async function loadPayments() {
+  const { data, error } = await supabaseClient
+    .from("payments")
+    .select(`
+      *,
+      cases (
+        case_no,
+        customers (
+          name
+        )
+      )
+    `)
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error(error);
+    return;
+  }
+
+  const tbody = document.getElementById("paymentsTable");
+  tbody.innerHTML = "";
+
+  if (!data.length) {
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="6">尚無還款紀錄</td>
+      </tr>
+    `;
+    return;
+  }
+
+  data.forEach(row => {
+    tbody.innerHTML += `
+      <tr>
+        <td>${row.cases?.case_no ?? ""}</td>
+        <td>${row.cases?.customers?.name ?? ""}</td>
+        <td>${row.payment_type ?? ""}</td>
+        <td>${row.amount ?? 0}</td>
+        <td>${row.paid_at ? new Date(row.paid_at).toLocaleString() : ""}</td>
+        <td>${row.note ?? ""}</td>
+      </tr>
+    `;
+  });
+}
