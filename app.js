@@ -264,3 +264,102 @@ ${customer.name}
 });
 
 }
+function calculateDueDate(startDate, days) {
+  const date = new Date(startDate);
+  date.setDate(date.getDate() + Number(days) - 1);
+  return date.toISOString().slice(0, 10);
+}
+
+async function addCase() {
+  const customerId = document.getElementById("caseCustomer").value;
+  const amount = document.getElementById("caseAmount").value;
+  const actualReceived = document.getElementById("caseActualReceived").value;
+  const days = document.getElementById("caseDays").value || 7;
+  const startDate = document.getElementById("caseStartDate").value;
+  const extensionFee = document.getElementById("caseExtensionFee").value;
+
+  if (!customerId) {
+    alert("請選擇客戶");
+    return;
+  }
+
+  if (!amount) {
+    alert("請輸入申請金額");
+    return;
+  }
+
+  if (!startDate) {
+    alert("請選擇起租日");
+    return;
+  }
+
+  const dueDate = calculateDueDate(startDate, days);
+
+  const { error } = await supabaseClient
+    .from("cases")
+    .insert([
+      {
+        customer_id: customerId,
+        amount: Number(amount),
+        actual_received: Number(actualReceived || 0),
+        days: Number(days),
+        start_date: startDate,
+        due_date: dueDate,
+        extension_fee: Number(extensionFee || 0),
+        case_status: "審核中"
+      }
+    ]);
+
+  if (error) {
+    console.error(error);
+    document.getElementById("caseMsg").innerText = "新增失敗";
+    return;
+  }
+
+  document.getElementById("caseMsg").innerText = "新增成功";
+
+  loadCases();
+  loadDashboardStats();
+}
+async function loadCases() {
+  const { data, error } = await supabaseClient
+    .from("cases")
+    .select(`
+      *,
+      customers (
+        name,
+        phone
+      )
+    `)
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error(error);
+    return;
+  }
+
+  const tbody = document.getElementById("casesTable");
+  tbody.innerHTML = "";
+
+  if (!data.length) {
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="6">尚無案件</td>
+      </tr>
+    `;
+    return;
+  }
+
+  data.forEach(row => {
+    tbody.innerHTML += `
+      <tr>
+        <td>${row.customers?.name ?? ""}</td>
+        <td>${row.amount ?? 0}</td>
+        <td>${row.actual_received ?? 0}</td>
+        <td>${row.days ?? 7}</td>
+        <td>${row.due_date ?? ""}</td>
+        <td>${row.case_status ?? ""}</td>
+      </tr>
+    `;
+  });
+}
