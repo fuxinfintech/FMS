@@ -163,7 +163,7 @@ async function addCustomer() {
           name,
           phone,
           id_number: idNumber,
-          birthday,
+          birthday: birthday || null,
           address,
           note
         }
