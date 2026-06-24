@@ -128,6 +128,16 @@ function showPage(page) {
       .classList.remove("hidden");
 
     loadCustomers();
+    if(page === "cases"){
+
+document
+.getElementById("casesSection")
+.classList.remove("hidden");
+
+loadCaseCustomers();
+loadCases();
+
+}
   }
 }
 async function addCustomer() {
@@ -228,4 +238,29 @@ async function loadCustomers() {
       </tr>
     `;
   });
+}
+async function loadCaseCustomers(){
+
+const { data } =
+await supabaseClient
+.from("customers")
+.select("*")
+.order("name");
+
+const select =
+document.getElementById("caseCustomer");
+
+select.innerHTML =
+'<option value="">選擇客戶</option>';
+
+data.forEach(customer=>{
+
+select.innerHTML += `
+<option value="${customer.id}">
+${customer.name}
+</option>
+`;
+
+});
+
 }
