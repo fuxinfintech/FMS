@@ -29,7 +29,7 @@
       <button onclick="showPage('dashboard')">📊 儀表板</button>
       <button>🏢 商戶管理</button>
       <button onclick="showPage('customers')">👥 客戶管理</button>
-      <button>📋 案件管理</button>
+      <button onclick="showPage('cases')">📋 案件管理</button>
       <button>💰 還款管理</button>
       <button>⚠️ 風控管理</button>
       <button>🚨 催收管理</button>
@@ -72,6 +72,70 @@
 
   <!-- 客戶管理 -->
   <section id="customersSection" class="hidden">
+    <section id="casesSection" class="hidden">
+
+<h1>案件管理</h1>
+
+<div class="form-box">
+
+<h3>新增案件</h3>
+
+<div class="form-grid">
+
+<select id="caseCustomer">
+<option value="">選擇客戶</option>
+</select>
+
+<input id="caseAmount" type="number" placeholder="申請金額">
+
+<input id="caseActualReceived" type="number" placeholder="實際到帳">
+
+<input id="caseDays" type="number" value="7">
+
+<input id="caseStartDate" type="date">
+
+<input id="caseExtensionFee" type="number" placeholder="展期費">
+
+</div>
+
+<button onclick="addCase()">
+新增案件
+</button>
+
+<p id="caseMsg"></p>
+
+</div>
+
+<div class="table-box">
+
+<h3>案件列表</h3>
+
+<table>
+
+<thead>
+<tr>
+<th>客戶</th>
+<th>金額</th>
+<th>實拿</th>
+<th>天數</th>
+<th>到期日</th>
+<th>狀態</th>
+</tr>
+</thead>
+
+<tbody id="casesTable">
+<tr>
+<td colspan="6">
+載入中...
+</td>
+</tr>
+</tbody>
+
+</table>
+
+</div>
+
+</section>
     <h1>客戶管理</h1>
 
     <div class="form-box">
