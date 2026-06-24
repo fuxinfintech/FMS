@@ -105,7 +105,13 @@ async function loadDashboardStats() {
   document.getElementById("overdueCases").innerText =
     overdueCaseCount ?? 0;
 }
+document.getElementById("paymentsSection")?.classList.add("hidden");
 
+if (page === "payments") {
+  document.getElementById("paymentsSection")?.classList.remove("hidden");
+  loadPaymentCases();
+  loadPayments();
+}
 function showPage(page) {
   document.getElementById("dashboardSection")?.classList.add("hidden");
   document.getElementById("customersSection")?.classList.add("hidden");
